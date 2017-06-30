@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ConfigService } from './config.service';
 
+// Documentação em: https://github.com/bit101/tones
 declare var tones:any;
 
 @Injectable()

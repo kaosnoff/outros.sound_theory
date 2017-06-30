@@ -1,0 +1,12 @@
+.teclado {
+	display: flex;
+	flex-direction: row;
+	align-content: space-between;
+	flex-grow: 1;
+	width: 100%;
+	height: 10.0em;
+	
+	.tecla {
+		position: relative;
+	}
+}

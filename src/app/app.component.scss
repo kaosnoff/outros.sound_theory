@@ -1,0 +1,23 @@
+#tempo {
+	padding-right: 2.0em;
+	border-right: 2px solid #fff;
+	label {
+		transform: translate(-110%, 0%);
+		color: #fff;
+		font-size: 1.0em;
+	}
+	input#campoTempo {
+		font-size: 1.5em;
+		max-width: 3.0em;
+		text-align: center;
+		margin-right: 0.5em;
+		border: none;
+		border-radius: 1.0em;
+		background-color: #fff;
+		color: rgb(238,110,115);
+		padding: 0.0em 1.0em;
+	}
+}
+main {
+	padding-top: 1.0em;
+}

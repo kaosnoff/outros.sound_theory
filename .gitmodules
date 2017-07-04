@@ -1,0 +1,3 @@
+[submodule "libs/tones"]
+	path = libs/tones
+	url = https://github.com/bit101/tones.git

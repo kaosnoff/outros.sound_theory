@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { ConfigService } from '../../services/config.service';
+
 import { NotasService, Nota } from '../../services/notas.service';
 
 @Component({
@@ -16,6 +18,7 @@ export class PianoTeclaComponent implements OnInit
 	preta:boolean = false;
 	
 	constructor(
+		private config:ConfigService,
 		private notasService: NotasService
 	) { }
 	
@@ -26,12 +29,13 @@ export class PianoTeclaComponent implements OnInit
 	
 	pressed()
 	{
-		this.playing = true;
+		this.nota.bpm = this.config.tempo;
+		//this.playing = true;
 		this.nota.play();
 	}
 	released()
 	{
-		this.playing = false;
-		this.nota.stop();
+		//this.playing = false;
+		//this.nota.stop();
 	}
 }

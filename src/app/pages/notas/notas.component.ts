@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewChild } from '@angular/core';
+
+import { PianoComponent } from '../../elements/piano/piano.component';
 
 import { ConfigService } from '../../services/config.service';
+
+import { NotasService, Nota } from '../../services/notas.service';
 
 @Component({
 	selector: 'app-notas',
@@ -9,10 +14,20 @@ import { ConfigService } from '../../services/config.service';
 })
 export class NotasComponent implements OnInit
 {
+	@ViewChild('piano')
+	piano: PianoComponent;
+	
+	teclas:Array<Nota>;
+	
 	constructor(
-		private config:ConfigService
+		private config:ConfigService,
+		private notasService: NotasService
 	)
-	{ }
+	{
+		let baseC:Nota = new Nota(0,3);
+		this.teclas = this.notasService.getEscala(baseC,3);
+		this.notasService.teclas = this.teclas;
+	}
 	
 	tempo:number = this.config.tempo;
 	
@@ -20,4 +35,10 @@ export class NotasComponent implements OnInit
 	{
 	}
 	
+	playSong()
+	{
+		this.piano.playSong();
+		//let song:string = 'cdef..ff-cdcd..dd-cgfe..ee-cdef..ff';
+		//this.notasService.play(song, {duration: 8});
+	}
 }

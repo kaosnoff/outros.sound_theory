@@ -10,10 +10,8 @@ import { NotasService, Nota } from '../../services/notas.service';
 export class PianoComponent implements OnInit
 {
 	@Input()
-	oitavas: number = 6;
-	
-	notas:Array<Nota>;
-	playing:boolean = false;
+	teclas:Array<Nota>;
+	partitura: Array<Nota> = [];
 	
 	constructor(
 		private notasService: NotasService
@@ -22,21 +20,13 @@ export class PianoComponent implements OnInit
 	
 	ngOnInit()
 	{
-		let baseC:Nota = new Nota(0,2);
-		this.notas = this.notasService.getEscala(baseC,this.oitavas);
-		//baseC.song();
-		this.mysong();
+		//let baseC:Nota = new Nota(0,2);
+		//this.notas = this.notasService.getEscala(baseC,this.oitavas);
 	}
 	
-	private mysong()
+	playSong()
 	{
-		let tones = this.notasService.tones;
-		
-		tones.type = 'square';
-		
-		tones.release = 500;
-		tones.play('e',2);
-		tones.play('b',2);
-		tones.play('e',3);
+		let song:string = 'cdef..ff-cdcd..dd-cgfe..ee-cdef..ff';
+		this.notasService.play(song, {duration: 8});
 	}
 }

@@ -1,4 +1,6 @@
 <div class="container">
-	<app-piano [oitavas]=3></app-piano>
+	<app-piano #piano [teclas]=teclas></app-piano>
+	
+	<button class="btn btn-default" (click)="playSong()">Play</button>
 </div>
 

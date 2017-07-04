@@ -28,7 +28,7 @@ export class AppComponent
 			label: "Acordes"
 		}
 	];
-	tempo= 100;
+	tempo = this.config.tempo;
 	
 	constructor (
 		private config: ConfigService

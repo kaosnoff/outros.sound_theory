@@ -1,0 +1,33 @@
+<div class="partitura">
+	<div *ngFor="let pauta of pautas" class="pauta pauta-{{pauta}}">
+		
+		<div class="linhas" *ngIf="pauta != 'pausa'">
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+		</div>
+		<div class="notas" *ngIf="pauta != 'pausa'">
+			<div class="clave"></div>
+			<div class="tempo" *ngIf="tempo">
+				<div class="tem num">{{tempo.num}}</div>
+				<div class="tem fig">{{tempo.num}}</div>
+			</div>
+			<div class="items">
+				<div class="item" *ngFor="let nota of notasPautas[pauta]">
+					<div class="nota" *ngIf="nota != null"
+						[attr.data-nome]="nota.nome"
+						[attr.data-accid]="nota.accid"
+						[attr.data-grau]="nota.grau"
+						[attr.data-oitava]="nota.oitava"
+						[attr.data-duration]="nota.duration"
+					>
+						<div class="acidente"></div>
+						<div class="figura"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

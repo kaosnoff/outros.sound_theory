@@ -1,0 +1,195 @@
+$oitavaBase: 2;
+$oitavas: 4;
+$oitavaCorte: ($oitavaBase + 1);
+
+.partitura {
+	width: 100%;
+	font-size: 14px;
+	line-height: 1.0em;
+	padding: 2.0em 0.0em;
+	
+	.pauta {
+		display: block;
+		width: 100%;
+		position: relative;
+		
+		&.pauta-pausa {
+			display: block;
+			width: 100%;
+			height: 4.5em;
+		}
+		
+		.linhas {
+			width: 100%;
+			height: 100%;
+			z-index: 0;
+			border-left: 2px solid #000;
+			border-right: 1px solid #000;
+			
+			.linha {
+				border-bottom: 1px solid #000;
+				margin-top: 1.0em;
+				
+				&:first-child {
+					margin-top: 0;
+				}
+			}
+		}
+		
+		.notas {
+			position: absolute;
+			top: -2.0em;
+			bottom: -2.0em;
+			left: 0px;
+			width: 100%;
+			z-index: 9;
+			
+			.items {
+				position: relative;
+				height: 100%;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				justify-content: flex-start;
+				
+				.item {
+					text-align: right;
+					display: block;
+					height: 5.2em;
+					flex-grow: 8;
+					margin: 1.6em 0.85em 0.0em;
+					position: relative;
+					
+					.nota {
+						font-family: Courier New, Courier, monospace;
+						height: 1.0em;
+						width: 1.0em;
+						position: absolute;
+						bottom: 0em;
+						left: 0em;
+						
+						.acidente {
+							display: block;
+							width: 1px;
+							height: 1px;
+						}
+						
+						.figura {
+							position: absolute;
+							top: -1.8em;
+							left: 0.0em;
+							width: 1.5em;
+							height: 2.7em;
+							background-image: url('../../../assets/img/fig3.svg');
+							background-repeat: no-repeat;
+							background-position: bottom right;
+							background-size: 100% auto;
+						}
+						&[data-duration='2'] .figura {
+							background-image: url('../../../assets/img/fig1.svg');
+						}
+						&[data-duration='4'] .figura {
+							background-image: url('../../../assets/img/fig2.svg');
+							background-size: 70% auto;
+							top: -1.65em;
+							left: -0.2em;
+						}
+						&[data-duration='8'] .figura {
+							background-image: url('../../../assets/img/fig3.svg');
+							background-size: 70% auto;
+							top: -1.80em;
+							left: -0.2em;
+						}
+						&[data-duration='16'] .figura {
+							background-image: url('../../../assets/img/fig4.svg');
+						}
+						&[data-duration='32'] .figura {
+							background-image: url('../../../assets/img/fig5.svg');
+						}
+						&[data-accid='#'] .acidente::before {
+							content: '\266f';
+							font-size: 1.5em;
+							position: absolute;
+							top: 0.1em;
+							left: -0.50em;
+						}
+						
+						&::after {
+							position: absolute;
+							top: 0px;
+							left: 1.0em;
+						}
+						&[data-accid='#']
+						{
+							content: '#';
+							width: 1.0em;
+						}
+					}
+				}
+			}
+		}
+		
+		&.pauta-f
+		{
+			.notas .items .item
+			{
+				@for $j from 0 through 3
+				{
+					@for $i from 0 through 7
+					{
+						.nota[data-grau="#{$i/2}"][data-oitava="#{$j + $oitavaBase}"] {
+							bottom: -2.14em + ($j*3.7) + ($i*0.535) !important;
+						}
+					}
+				}
+			}
+		}
+		
+		&.pauta-g
+		{
+			.notas .items .item
+			{
+				@for $j from 0 through 3
+				{
+					@for $i from 0 through 7
+					{
+						.nota[data-grau="#{$i/2}"][data-oitava="#{$j + $oitavaCorte}"] {
+							bottom: -1.08em + (($j - 1)*3.7) + ($i*0.535) !important;
+						}
+					}
+				}
+			}
+		}
+		
+		.clave {
+			display: block;
+			float: left;
+			height: 100%;
+			width: 3.0em;
+			background-image: url('../../../assets/img/GClef.svg');
+			background-repeat: no-repeat;
+			background-size: 100% auto;
+			background-position: 0.0em 0.0em;
+			margin: 0.0em 1.0em 0.0em 0.5em;
+		}
+		
+		&.pauta-f .clave {
+			background-image: url('../../../assets/img/FClef.svg');
+			width: 3.4em;
+			margin-right: 0.6em;
+			background-position: 0.0em 2.1em;
+		}
+		
+		.tempo {
+			font-family: 'Bree Serif', serif;
+			display: block;
+			float: left;
+			margin: 1.9em 0.5em 0.0em -0.5em;
+			
+			.tem {
+				font-size: 3.0em;
+				line-height: 0.7em;
+			}
+		}
+	}
+}

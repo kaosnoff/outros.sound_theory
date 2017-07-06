@@ -42,6 +42,8 @@ export class NotasComponent implements OnInit
 			this.buffer.push(new Nota(nota.altura, nota.oitava,{duration: nota.duration}));
 		});
 		this.buffer = [];
+		
+		//this.song3();
 	}
 	
 	playSong()
@@ -50,8 +52,9 @@ export class NotasComponent implements OnInit
 		//this.piano.playSong();
 		let rnd = Math.random();
 		
-		//if (rnd > 0.5) this.song2(); else this.song1();
-		this.song2();
+		if (rnd < 0.33) this.song1();
+		else if (rnd < 0.66) this.song2();
+		else this.song3();
 	}
 	
 	song1()
@@ -70,8 +73,8 @@ export class NotasComponent implements OnInit
 	song3()
 	{
 		this.buffer = [];
-		let song = "cc..g....c....e...c..";
-		this.notasService.play(song, {duration: 8});
+		let song = "d3ddg...d4...cb3ag4...d..cb3ag4...d..cb3c4a3...";
+		this.notasService.play(song, {duration: 16});
 	}
 	
 	playCicloQuintas()

@@ -184,13 +184,12 @@ export class NotasService
 				char += '#';
 				cur++;
 			}
-			/*
+			
 			let oit = Number(prox);
-			if (oit !== NaN)
+			if (!isNaN(oit))
 			{
-				//console.log(oit);
-				//nota.oitava = Number(prox);
-				//cur++;
+				oitava = oit;
+				cur++;
 			}
 			// */
 			char = char.toUpperCase();
@@ -234,6 +233,7 @@ export class Nota
 	public oitava:number = 2;
 	public nome: string = 'C';
 	public accid: string = '';
+	public grau:number = 0;
 	//public freq: number = 132.0;
 	public _duration: number = 4;
 	public bpm:number = 100;
@@ -264,6 +264,7 @@ export class Nota
 		{
 			this.pausa = true;
 			this.nome = 'P';
+			this.grau = 3.5;
 		}
 		else
 		{
@@ -282,6 +283,10 @@ export class Nota
 			{
 				this.accid = '#';
 			}
+			
+			this.grau = (altura < 5) ? (Math.floor(altura / 2)/2) : (Math.floor((altura + 1) / 2)/2);
+			
+			
 		}
 		
 		//this.freq = this.getFreq(altura,oitava);

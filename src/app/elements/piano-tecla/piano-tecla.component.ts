@@ -24,6 +24,7 @@ export class PianoTeclaComponent implements OnInit
 	
 	ngOnInit()
 	{
+		this.nota.playing.subscribe(v => this.playing = v);
 		this.preta = this.nota.accid == '#';
 	}
 	

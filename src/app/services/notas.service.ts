@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EventEmitter} from '@angular/core';
 
-import { Observer, Observable } from 'rxjs/Rx';
+import { Observer, Observable, BehaviorSubject } from 'rxjs/Rx';
 //import {Observable} from 'rxjs/Observable';
 
 import { ConfigService } from './config.service';
@@ -15,14 +15,28 @@ declare var tones:any;
 export class NotasService
 {
 	tones = tones;
+	playing:boolean = false;
 	
 	teclas:Array<Nota> = [];
+	
+	//partitura:Array<Nota> = [];
+	
+	//nota:Observable<Nota>;
+	//notaObs:Observer<Nota>;
+	nota:BehaviorSubject<Nota> = new BehaviorSubject(new Nota(-1,0));
 	
 	constructor(
 		private config: ConfigService
 	)
 	{
-		
+		//this.nota.next(null);
+		/*
+		this.nota.value.complete.subscribe(complete =>
+		{
+			console.log('complete',complete);
+		});
+		// */
+		//this.nota = new Observable(observer => this.notaObs = observer);
 	}
 	
 	public getEscala(base:Nota,oitavas:number):Array<Nota>
@@ -44,16 +58,29 @@ export class NotasService
 		return escala;
 	}
 	
+	stop()
+	{
+		let nota = this.nota.value;
+		nota.stop();
+		/*this.nota.subscribe(nota => {
+			nota.stop();
+		});
+		// */
+	}
+	
 	play(args:string | Nota | Array<Nota>, params: any = null)
 	{
+		this.stop();
+		
 		let notas:Array<Nota>;
-		let duration:number = (params.hasOwnProperty('duration')) ? (params.duration) : 4;
+		let duration:number = (params != null && params.hasOwnProperty('duration')) ? (params.duration) : 8;
+		let oitava:number = (params != null && params.hasOwnProperty('oitava')) ? (params.oitava) : 3;
 		
 		let tipo:string = typeof(args) as string;
 		
 		if (tipo === "string")
 		{
-			notas = this.toSong(args as string,duration);
+			notas = this.toSong(args as string,{ duration: duration, oitava: oitava });
 		}
 		else if (tipo === "Nota")
 		{
@@ -64,34 +91,81 @@ export class NotasService
 		{
 			notas = args as Nota[];
 		}
-		//console.log(notas);
 		
-		this.playNotes(notas);
+		for (let i = 0; i < notas.length; i++)
+		{
+			let nota0 = notas[i];
+			let nota1 = notas[i+1];
+			
+			nota0.playing.subscribe(v =>
+			{
+				if (v) this.nota.next(nota0);
+				return v;
+			});
+			
+			if (nota1 == undefined) break;
+			
+			nota0.next = nota1;
+			
+			notas[i] = nota0;
+		}
 		
+		if (notas.length > 0)
+		{
+			notas[0].play();
+		}
 	}
-	private playNotes(notas:Array<Nota>)
+	/*
+	private playNotes()
 	{
-		let nota:Nota = notas.shift();
+		let nota:Nota = this.partitura.shift();
 		
-		if (!nota || nota == undefined) return;
+		this.playing = true;
+		
+		if (!nota || nota == undefined)
+		{
+			this.playing = false;
+			return;
+		}
 		
 		if (this.teclas)
 		{
-			//console.log(this.teclas.indexOf(nota));
+			let tecla = this.teclas.filter(item => (item.nome == nota.nome && item.oitava == nota.oitava));
+			if (tecla.length > 0)
+			{
+				tecla[0].duration = nota.duration;
+				nota = tecla[0];
+			}
 		}
 		
-		nota.play();
-		nota.complete.subscribe(complete => {
-			this.playNotes(notas);
+		//this.notaObs.next(nota);
+		this.nota.next(nota);
+		
+		if (nota.oitava > 9)
+		{
+			nota.oitava = 9;
+		}
+		/*
+		nota.complete.subscribe(complete => 
+		{
+			if (!complete) return complete;
+			console.log(nota, complete)
+			//nota.complete.unsubscribe();
+			if (complete) this.playNotes();
+			return complete;
 		});
+		// */ /*
+		nota.play();
+		
 		return this;
 	}
-	
-	toSong(notasString:string,duration: number):Array<Nota>
+	// */
+	toSong(notasString:string,params: any):Array<Nota>
 	{
 		let notas:Array<Nota> = new Array<Nota>();
 		
-		let oitava:number = 3;
+		let duration:number = (params.hasOwnProperty('duration')) ? (params.duration) : 4;
+		let oitava:number = (params.hasOwnProperty('oitava')) ? (params.oitava) : 3;
 		
 		let lista:Array<string> = Nota.listaNotas;
 		
@@ -110,7 +184,15 @@ export class NotasService
 				char += '#';
 				cur++;
 			}
-			
+			/*
+			let oit = Number(prox);
+			if (oit !== NaN)
+			{
+				//console.log(oit);
+				//nota.oitava = Number(prox);
+				//cur++;
+			}
+			// */
 			char = char.toUpperCase();
 			let altura = lista.indexOf(char);
 			
@@ -153,15 +235,15 @@ export class Nota
 	public nome: string = 'C';
 	public accid: string = '';
 	//public freq: number = 132.0;
-	public duration: number = 4;
+	public _duration: number = 4;
 	public bpm:number = 100;
 	
-	public playing:boolean = false;
+	public playing:BehaviorSubject<boolean> = new BehaviorSubject(false);
 	
 	private pausa:boolean = false;
+	private _next:Nota = null;
 	
-	public complete:Observable<any>;
-	public completeObs:Observer<any>;
+	public complete:BehaviorSubject<boolean> = new BehaviorSubject(false);
 	
 	//private baseFreq: number = 33.0;
 	//private interval = null;
@@ -169,9 +251,14 @@ export class Nota
 	//private audioContext:AudioContext;
 	private timeout = null;
 	
-	constructor (altura:number, oitava:number)
+	constructor (altura:number, oitava:number,params:any = null)
 	{
-		this.complete = new Observable(observer => this.completeObs = observer);
+		this.complete.next(false);// = new Observable(observer => this.completeObs = observer);
+		
+		if (params != null && params.hasOwnProperty('duration'))
+		{
+			this.duration = params.duration;
+		}
 		
 		if (altura < 0)
 		{
@@ -200,6 +287,15 @@ export class Nota
 		//this.freq = this.getFreq(altura,oitava);
 	}
 	
+	set duration(v:number)
+	{
+		this._duration = Math.max(1,Math.round(v));
+	}
+	get duration():number
+	{
+		return this._duration;
+	}
+	
 	static naturais:Array<number> = [
 		0,2,4,5,7,9,11
 	];
@@ -207,6 +303,7 @@ export class Nota
 	static listaNotas:Array<string> = [
 		'C','C#','D','D#','E','F','F#','G','G#','A','A#','B'
 	];
+	/*
 	static listaRelacoes = [
 		1.000,
 		1.059,
@@ -221,13 +318,15 @@ export class Nota
 		1.782,
 		1.888
 	];
+	//*/
 	
 	public play():void
 	{
 		let tempoMs: number = (60000/this.bpm) * (1/this.duration);
 		//this.complete = new Observable(observer => {this.completeObs = observer; console.log(observer)});
-		//console.log(tempoMs);
-		//console.log(this.completeObs);
+		this.complete.next(false);
+		clearTimeout(this.timeout);
+		
 		if (this.pausa)
 		{
 			
@@ -237,20 +336,24 @@ export class Nota
 			tones.type = 'sine'; // "sine", "square", "sawtooth" or "triangle"
 			tones.attack = 10;
 			tones.release = tempoMs;
-			tones.play(this.nome,this.oitava);
+			if (this.oitava < 10)
+			{
+				tones.play(this.nome,this.oitava);
+			}
 			
-			this.playing = true;
+			this.playing.next(true);
 			
 		}
 		this.timeout = setTimeout(() => {
-			this.stop();
+			//this.stop();
 			this.onComplete();
 		},tempoMs * 5);
 	}
 	public stop():void
 	{
 		//console.log('stop');
-		this.playing = false;
+		this.playing.next(false);
+		clearTimeout(this.timeout);
 		/*
 		if (!this.sound) return;
 		
@@ -263,15 +366,43 @@ export class Nota
 		this.interval = null;
 		// */
 	}
+	
+	set next(nota:Nota)
+	{
+		this._next = nota;
+		this.complete.subscribe(complete =>
+		{
+			if (complete) {
+				this._next.play();
+			}
+			return complete;
+		});
+	}
+	get next():Nota
+	{
+		return this._next;
+	}
+	
 	public onComplete()
 	{
-		//console.log(this.completeObs);
+		/*
 		if (this.completeObs !== undefined)
 		{
 			this.completeObs.next(Observable.of(false));
 		}
+		// */
+		//this.playing = false;
+		this.playing.next(false);
+		this.complete.next(true);
 	}
 	
+	public getIntervalo(intervalo:number):Nota
+	{
+		let nota:Nota = new Nota(this.altura + intervalo,this.oitava);
+		
+		return nota;
+	}
+	/*
 	public song()
 	{
         tones.type = "square";
@@ -308,5 +439,6 @@ export class Nota
                requestAnimationFrame(play);
         }
     }
+	// */
 	
 }

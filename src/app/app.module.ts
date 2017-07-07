@@ -17,6 +17,7 @@ import { AcordesComponent } from './pages/acordes/acordes.component';
 import { PianoComponent } from './elements/piano/piano.component';
 import { PianoTeclaComponent } from './elements/piano-tecla/piano-tecla.component';
 import { PartituraComponent } from './elements/partitura/partitura.component';
+import { NotaFiguraComponent } from './elements/nota-figura/nota-figura.component';
 
 @NgModule({
 	declarations: [
@@ -27,7 +28,8 @@ import { PartituraComponent } from './elements/partitura/partitura.component';
 		AcordesComponent,
 		PianoComponent,
 		PianoTeclaComponent,
-		PartituraComponent
+		PartituraComponent,
+		NotaFiguraComponent
 	],
 	imports: [
 		MaterializeModule,

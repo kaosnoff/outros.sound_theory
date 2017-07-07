@@ -1,4 +1,4 @@
-<div class="tecla" [class.preta]="preta" (mousedown)="pressed(nota)" (mouseup)="released(nota)" (dragstart)="released(nota)">
+<div class="tecla" [class.preta]="preta" (mousedown)="pressed()" (mouseup)="released()">
 	<div class="nome">{{nota.nome}}</div>
 	<div class="playing" [class.active]="playing"></div>
 </div>

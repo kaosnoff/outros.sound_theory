@@ -16,9 +16,9 @@
 		<div class="col s12">
 			<div class="buffer">
 				<div class="chip nota" *ngFor="let nota of buffer" [attr.data-altura]="nota.altura" [attr.data-oitava]="nota.oitava" [attr.data-duration]="nota.duration">
+					<app-nota-figura [nota]="nota"></app-nota-figura>
 					<span class="nome">{{nota.nome}}</span>
-					<span class="altura">{{nota.oitava}}</span>
-					<span class="duration">{{nota.duration}}</span>
+					<span class="oitava">{{nota.oitava}}</span>
 				</div>
 			</div>
 		</div>

@@ -44,6 +44,7 @@ export class NotasComponent implements OnInit
 			this.buffer.push(new Nota(nota.altura, nota.oitava,{duration: nota.duration}));
 		});
 		this.reset();
+		//this.buffer.push(new Nota(0,5));
 	}
 	
 	reset()

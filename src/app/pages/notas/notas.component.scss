@@ -5,7 +5,24 @@
 	padding: 0.5em 1.0em;
 	
 	.nota {
+		padding-left: 2.0em;
+		position: relative;
 		
+		.nome {
+			font-size: 1.2em;
+			font-weight: bold;
+		}
+		.oitava {
+			vertical-align: sub;
+			font-size: smaller;
+		}
+		
+		app-nota-figura {
+			position: absolute;
+			bottom: 7px;
+			left: 10px;
+			font-size: 7px;
+		}
 	}
 }
 

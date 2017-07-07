@@ -1,0 +1,62 @@
+.nota {
+	height: 1.0em;
+	width: 1.0em;
+	position: relative;
+	
+	.acidente {
+		display: block;
+		width: 1px;
+		height: 1px;
+	}
+	
+	.figura {
+		position: absolute;
+		top: -1.8em;
+		left: 0.0em;
+		width: 1.5em;
+		height: 2.7em;
+		background-image: url('../../../assets/img/fig3.svg');
+		background-repeat: no-repeat;
+		background-position: bottom right;
+		background-size: 100% auto;
+	}
+	&[data-duration='2'] .figura {
+		background-image: url('../../../assets/img/fig1.svg');
+	}
+	&[data-duration='4'] .figura {
+		background-image: url('../../../assets/img/fig2.svg');
+		background-size: 70% auto;
+		top: -1.65em;
+		left: -0.2em;
+	}
+	&[data-duration='8'] .figura {
+		background-image: url('../../../assets/img/fig3.svg');
+		background-size: 70% auto;
+		top: -1.80em;
+		left: -0.2em;
+	}
+	&[data-duration='16'] .figura {
+		background-image: url('../../../assets/img/fig4.svg');
+	}
+	&[data-duration='32'] .figura {
+		background-image: url('../../../assets/img/fig5.svg');
+	}
+	&[data-accid='#'] .acidente::before {
+		content: '\266f';
+		font-size: 1.5em;
+		position: absolute;
+		top: 0.1em;
+		left: -0.50em;
+	}
+	
+	&::after {
+		position: absolute;
+		top: 0px;
+		left: 1.0em;
+	}
+	&[data-accid='#']
+	{
+		content: '#';
+		width: 1.0em;
+	}
+}

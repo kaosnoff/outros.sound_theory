@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { PianoComponent } from '../../elements/piano/piano.component';
+import { PartituraComponent } from '../../elements/partitura/partitura.component';
 
 import { ConfigService } from '../../services/config.service';
 
@@ -16,6 +17,9 @@ export class NotasComponent implements OnInit
 {
 	@ViewChild('piano')
 	piano: PianoComponent;
+	
+	@ViewChild('partitura')
+	partitura: PartituraComponent;
 	
 	teclas:Array<Nota>;
 	
@@ -35,20 +39,22 @@ export class NotasComponent implements OnInit
 	
 	ngOnInit()
 	{
-		//this.buffer = [];
-		
 		this.notasService.nota.subscribe(nota =>
 		{
 			this.buffer.push(new Nota(nota.altura, nota.oitava,{duration: nota.duration}));
 		});
+		this.reset();
+	}
+	
+	reset()
+	{
 		this.buffer = [];
-		
-		//this.song3();
+		this.partitura.clear();
 	}
 	
 	playSong()
 	{
-		this.buffer = [];
+		this.reset();
 		//this.piano.playSong();
 		let rnd = Math.random();
 		
@@ -59,27 +65,27 @@ export class NotasComponent implements OnInit
 	
 	song1()
 	{
-		this.buffer = [];
+		this.reset();
 		let song:string = 'cdef..ff-cdcd..dd-cgfe..ee-cdef..ff';
 		this.notasService.play(song, {duration: 8, oitava: 4});
 	}
 	
 	song2()
 	{
-		this.buffer = [];
+		this.reset();
 		let song = "ccggaag-ffeeddc-ggffeed-ggffeed-ccggaag-ffeeddc---";
 		this.notasService.play(song, {duration: 8, oitava: 4});
 	}
 	song3()
 	{
-		this.buffer = [];
-		let song = "d3ddg...d4...cb3ag4...d..cb3ag4...d..cb3c4a3...";
+		this.reset();
+		let song = "d4ddg...d5...cb4ag5...d..cb4ag5...d..cb4c5a4...";
 		this.notasService.play(song, {duration: 16});
 	}
 	
 	playCicloQuintas()
 	{
-		this.buffer = [];
+		this.reset();
 		
 		let notaBase:Nota = new Nota(0,0);
 		
@@ -97,7 +103,7 @@ export class NotasComponent implements OnInit
 	
 	playCicloGenerico(intervalo:number, oitavaBase:number)
 	{
-		this.buffer = [];
+		this.reset();
 		
 		if (!oitavaBase || oitavaBase <= 0) oitavaBase = 0;
 		

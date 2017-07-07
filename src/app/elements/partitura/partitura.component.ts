@@ -24,9 +24,36 @@ export class PartituraComponent implements OnInit
 	private oitavas:number = 4;
 	private oitavaCorte:number = 1;
 	
-	constructor()
+	constructor(
+		private notasService: NotasService
+	)
 	{
+		this.notasService.nota.subscribe(nota =>
+		{
+			this.notas.push(nota);
+			this.dividePauta();
+		});
+	}
+	
+	ngOnInit()
+	{
+		this.dividePauta();
+	}
+	
+	public dividePauta()
+	{
+		this.notasPautas['g'] = [];
+		this.notasPautas['f'] = [];
 		
+		for(let nota of this.notas)
+		{
+			this.notasPautas['f'].push((nota.oitava <= (this.oitavaCorte + this.oitavaBase)) ? nota : null);
+			this.notasPautas['g'].push((nota.oitava > (this.oitavaCorte + this.oitavaBase)) ? nota : null);
+		}
+	}
+	
+	private dummy()
+	{
 		for (let i=0;i<(this.oitavas*12);i++)
 		{
 			let j = (i%12);
@@ -46,19 +73,10 @@ export class PartituraComponent implements OnInit
 		this.notas.push(nota);
 	}
 	
-	ngOnInit()
+	public clear()
 	{
+		this.notas = [];
 		this.notasPautas['g'] = [];
 		this.notasPautas['f'] = [];
-		
-		//console.log(this.oitavaBase,this.oitavaCorte);
-		
-		for(let nota of this.notas)
-		{
-			//console.log(nota.nome, nota.oitava);
-			//console.log(nota.nome, nota.grau);
-			this.notasPautas['f'].push((nota.oitava <= (this.oitavaCorte + this.oitavaBase)) ? nota : null);
-			this.notasPautas['g'].push((nota.oitava > (this.oitavaCorte + this.oitavaBase)) ? nota : null);
-		}
 	}
 }

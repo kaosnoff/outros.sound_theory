@@ -44,6 +44,12 @@ $oitavaCorte: ($oitavaBase + 1);
 			width: 100%;
 			z-index: 9;
 			
+			.clave {
+				display: block;
+				float: left;
+				padding: 0.5em 0em 0em;
+			}
+			
 			.items {
 				position: relative;
 				height: 100%;
@@ -68,72 +74,6 @@ $oitavaCorte: ($oitavaBase + 1);
 						left: 0em;
 						background-color: #f00;
 					}
-					
-					/*
-					.nota {
-						height: 1.0em;
-						width: 1.0em;
-						position: absolute;
-						bottom: 0em;
-						left: 0em;
-						
-						.acidente {
-							display: block;
-							width: 1px;
-							height: 1px;
-						}
-						
-						.figura {
-							position: absolute;
-							top: -1.8em;
-							left: 0.0em;
-							width: 1.5em;
-							height: 2.7em;
-							background-image: url('../../../assets/img/fig3.svg');
-							background-repeat: no-repeat;
-							background-position: bottom right;
-							background-size: 100% auto;
-						}
-						&[data-duration='2'] .figura {
-							background-image: url('../../../assets/img/fig1.svg');
-						}
-						&[data-duration='4'] .figura {
-							background-image: url('../../../assets/img/fig2.svg');
-							background-size: 70% auto;
-							top: -1.65em;
-							left: -0.2em;
-						}
-						&[data-duration='8'] .figura {
-							background-image: url('../../../assets/img/fig3.svg');
-							background-size: 70% auto;
-							top: -1.80em;
-							left: -0.2em;
-						}
-						&[data-duration='16'] .figura {
-							background-image: url('../../../assets/img/fig4.svg');
-						}
-						&[data-duration='32'] .figura {
-							background-image: url('../../../assets/img/fig5.svg');
-						}
-						&[data-accid='#'] .acidente::before {
-							content: '\266f';
-							font-size: 1.5em;
-							position: absolute;
-							top: 0.1em;
-							left: -0.50em;
-						}
-						
-						&::after {
-							position: absolute;
-							top: 0px;
-							left: 1.0em;
-						}
-						&[data-accid='#']
-						{
-							content: '#';
-							width: 1.0em;
-						}
-					}*/
 				}
 			}
 		}
@@ -170,37 +110,6 @@ $oitavaCorte: ($oitavaBase + 1);
 						}
 					}
 				}
-			}
-		}
-		
-		.clave {
-			display: block;
-			float: left;
-			height: 100%;
-			width: 3.0em;
-			background-image: url('../../../assets/img/GClef.svg');
-			background-repeat: no-repeat;
-			background-size: 100% auto;
-			background-position: 0.0em 0.0em;
-			margin: 0.0em 1.0em 0.0em 0.5em;
-		}
-		
-		&.pauta-f .clave {
-			background-image: url('../../../assets/img/FClef.svg');
-			width: 3.4em;
-			margin-right: 0.6em;
-			background-position: 0.0em 2.1em;
-		}
-		
-		.tempo {
-			font-family: 'Bree Serif', serif;
-			display: block;
-			float: left;
-			margin: 1.9em 0.5em 0.0em -0.5em;
-			
-			.tem {
-				font-size: 3.0em;
-				line-height: 0.7em;
 			}
 		}
 	}

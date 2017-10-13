@@ -49,7 +49,12 @@ export class PartituraChaveComponent implements OnInit
 	];
 	
   ngOnInit()
-	{}
+	{
+		if (!this.key)
+		{
+			this.key = 'C';
+		}
+	}
 	
 	getArmadura()
 	{

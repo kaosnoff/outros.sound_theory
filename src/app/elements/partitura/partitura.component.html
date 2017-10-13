@@ -8,11 +8,10 @@
 			<div class="linha"></div>
 			<div class="linha"></div>
 		</div>
+		
 		<div class="notas" *ngIf="pauta != 'pausa'">
-			<div class="clave"></div>
-			<div class="tempo" *ngIf="tempo">
-				<div class="tem num">{{tempo.num}}</div>
-				<div class="tem fig">{{tempo.num}}</div>
+			<div class="clave">
+				<app-partitura-chave [clave]="pauta.toUpperCase()" [tempo]="[4,4]"></app-partitura-chave>
 			</div>
 			<div class="items">
 				<div class="item" *ngFor="let nota of notasPautas[pauta]">

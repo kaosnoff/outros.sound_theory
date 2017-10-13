@@ -1,0 +1,27 @@
+.nota {
+	text-transform: capitalize;
+}
+.detalhes {
+	display: flex;
+	flex-direction: column;
+	padding-left: 5.0em;
+	
+	.items {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: space-between;
+		
+		.item {
+			border: 1px solid #ccc;
+			text-align: center;
+			flex-grow: 1;
+			max-width: 8%;
+		}
+	}
+	
+	.funcoes {
+		font-size: 70%;
+	}
+}

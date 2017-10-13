@@ -9,17 +9,17 @@ import { NotasService, Nota } from '../../services/notas.service';
 })
 export class PartituraComponent implements OnInit
 {
-	tempo = {
-		num: 4,
-		fig: 4
-	};
-	
 	@Input()
 	notas:Array<Nota> = [];
+	@Input()
+	simples: boolean = false;
+	@Input()
+	tempo: number[] = [4,4];
 	
 	notasPautas = [];
 	
 	pautas = ['g','pausa','f'];
+	
 	private oitavaBase:number = 2;
 	private oitavas:number = 4;
 	private oitavaCorte:number = 1;
@@ -28,16 +28,25 @@ export class PartituraComponent implements OnInit
 		private notasService: NotasService
 	)
 	{
+		
 		this.notasService.nota.subscribe(nota =>
 		{
 			this.notas.push(nota);
-			this.dividePauta();
+			if (!this.simples) this.dividePauta();
 		});
 	}
 	
 	ngOnInit()
 	{
-		this.dividePauta();
+		if (this.simples)
+		{
+			this.pautas = ['g'];
+			this.tempo = null;
+		}
+		else
+		{
+			this.dividePauta();
+		}
 	}
 	
 	public dividePauta()

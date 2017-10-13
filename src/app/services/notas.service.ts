@@ -458,8 +458,31 @@ export class ArmaduraNota
 	nota: string;
 	linha: number;
 }
-export class Escalas
+export class HelperEscalas
 {
+	valores:any[] = [
+		{ nota: 'C', value: 0 },
+		{ nota: 'C#', value: 0.5 },
+		{ nota: 'Db', value: 0.5 },
+		{ nota: 'D', value: 1.0 },
+		{ nota: 'D#', value: 1.5 },
+		{ nota: 'Eb', value: 2.5 },
+		{ nota: 'E', value: 2.0 },
+		{ nota: 'Fb', value: 2.0 },
+		{ nota: 'E#', value: 2.5 },
+		{ nota: 'F', value: 2.5 },
+		{ nota: 'F#', value: 3.0 },
+		{ nota: 'Gb', value: 3.0 },
+		{ nota: 'G', value: 3.5 },
+		{ nota: 'G#', value: 4.0 },
+		{ nota: 'Ab', value: 4.0 },
+		{ nota: 'A', value: 4.5 },
+		{ nota: 'A#', value: 5.0 },
+		{ nota: 'Bb', value: 5.0 },
+		{ nota: 'B', value: 5.5 },
+		{ nota: 'Cb', value: 5.5 },
+		{ nota: 'B#', value: 6.0 }
+	]
 	cicloSustenido:string[] = [
 		'C','G','D','A','E','B'
 	];
@@ -470,6 +493,49 @@ export class Escalas
 		'C','C#','D','D#','E','F','F#','G','G#','A','Bb','B'
 	];
 	notasBemol: string[] = [
-		'C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'
+		'C','Db','D','Eb','E','F','Gb','G','Ab','A','A#','B'
 	];
+	
+	ordemSustenido:any[] = [
+		{ nota: 'F', linha: 1 },
+		{ nota: 'C', linha: 4 },
+		{ nota: 'G', linha: 0 },
+		{ nota: 'D', linha: 3 },
+		{ nota: 'A', linha: 6 }
+	];
+	ordemBemol:any[] = [
+		{ nota: 'B', linha: 5 },
+		{ nota: 'E', linha: 2 },
+		{ nota: 'A', linha: 6 },
+		{ nota: 'D', linha: 3 },
+		{ nota: 'G', linha: 7 },
+		{ nota: 'C', linha: 4 }
+	];
+	
+	getArmadura(key: string)
+	{
+		let armadura: Armadura = new Armadura;
+		
+		let n: number = this.cicloSustenido.indexOf(key);
+		if (n < 0)
+		{
+			n = this.cicloBemol.indexOf(key);
+			armadura.tipo = 'b';
+		} 
+		else
+		{
+			armadura.tipo = '#';
+		}
+		
+		let ordem:any[] = (armadura.tipo == '#') ? this.ordemSustenido : this.ordemBemol;
+		let base: number = (armadura.tipo == '#') ? 0 : 1;
+		armadura.notas = [];
+		
+		for (let i = 0; i < n + base; i++)
+		{
+			armadura.notas.push(ordem[i]);
+		}
+		
+		return armadura;
+	}
 }

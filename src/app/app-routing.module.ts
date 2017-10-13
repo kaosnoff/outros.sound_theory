@@ -7,6 +7,7 @@ import { IntervalosComponent } from './pages/intervalos/intervalos.component';
 import { AcordesComponent } from './pages/acordes/acordes.component';
 
 import { EscalasChavesComponent } from './pages/escalas-chaves/escalas-chaves.component';
+import { EscalasEscalasComponent } from './pages/escalas-escalas/escalas-escalas.component';
 
 const routes: Routes = [
 	{
@@ -19,7 +20,8 @@ const routes: Routes = [
 		path: 'escalas', component: EscalasComponent, children:
 		[
 			{ path: '', redirectTo: 'chaves', pathMatch: 'full' },
-			{ path: 'chaves', component: EscalasChavesComponent }
+			{ path: 'chaves', component: EscalasChavesComponent },
+			{ path: 'escalas', component: EscalasEscalasComponent }
 		]
 	},
 	{

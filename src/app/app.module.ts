@@ -20,6 +20,8 @@ import { PartituraComponent } from './elements/partitura/partitura.component';
 import { NotaFiguraComponent } from './elements/nota-figura/nota-figura.component';
 import { EscalasChavesComponent } from './pages/escalas-chaves/escalas-chaves.component';
 import { PartituraChaveComponent } from './elements/partitura-chave/partitura-chave.component';
+import { EscalasEscalasComponent } from './pages/escalas-escalas/escalas-escalas.component';
+import { PartituraSimplesComponent } from './elements/partitura-simples/partitura-simples.component';
 
 @NgModule({
 	declarations: [
@@ -33,7 +35,9 @@ import { PartituraChaveComponent } from './elements/partitura-chave/partitura-ch
 		PartituraComponent,
 		NotaFiguraComponent,
 		EscalasChavesComponent,
-		PartituraChaveComponent
+		PartituraChaveComponent,
+		EscalasEscalasComponent,
+		PartituraSimplesComponent
 	],
 	imports: [
 		MaterializeModule,

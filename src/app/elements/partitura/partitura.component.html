@@ -11,7 +11,7 @@
 		
 		<div class="notas" *ngIf="pauta != 'pausa'">
 			<div class="clave">
-				<app-partitura-chave [clave]="pauta.toUpperCase()" [tempo]="[4,4]"></app-partitura-chave>
+				<app-partitura-chave [clave]="pauta.toUpperCase()" [tempo]="tempo"></app-partitura-chave>
 			</div>
 			<div class="items">
 				<div class="item" *ngFor="let nota of notasPautas[pauta]">

@@ -1,0 +1,30 @@
+<div class="partitura">
+	<div class="pauta pauta-g">
+		<div class="linhas">
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+		</div>
+		
+		<div class="notas">
+			<div class="clave">
+				<app-partitura-chave [clave]="'G'" [key]="key" [tempo]="null"></app-partitura-chave>
+			</div>
+			<div class="items">
+				<div class="item" *ngFor="let nota of notas">
+					<div class="nota" *ngIf="nota != null"
+						[attr.data-nome]="nota.nome"
+						[attr.data-accid]="nota.accid"
+						[attr.data-grau]="nota.grau"
+						[attr.data-oitava]="nota.oitava"
+						[attr.data-duration]="nota.duration"
+					>
+						<app-nota-figura [nota]="nota" [key]="key"></app-nota-figura>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Armadura, Escalas } from '../../services/notas.service';
+import { Armadura, HelperEscalas } from '../../services/notas.service';
 
 @Component({
   selector: 'app-escalas-chaves',
@@ -18,7 +18,7 @@ export class EscalasChavesComponent implements OnInit
 	acidenteTipo: string = '#';
 	armadura: Armadura = null;
 	
-	escala: Escalas = new Escalas;
+	escala: HelperEscalas = new HelperEscalas;
 	
   ngOnInit()
 	{

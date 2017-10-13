@@ -1,0 +1,19 @@
+<div class="pauta" [class.pauta-g]="clave == 'G'" [class.pauta-f]="clave == 'F'">
+	<ng-container *ngIf="standalone">
+		<div class="linhas">
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+			<div class="linha"></div>
+		</div>
+	</ng-container>
+	<div class="clave"></div>
+	<div class="armadura" *ngIf="armadura && armadura.notas.length > 0" [attr.data-tipo]="tipoAcidente">
+		<div *ngFor="let nota of armadura.notas" class="acidente" [attr.data-linha]="nota.linha"></div>
+	</div>
+	<div class="tempo" *ngIf="tempo">
+		<div class="tem numerador">{{tempo[0]}}</div>
+		<div class="tem denominador">{{tempo[1]}}</div>
+	</div>
+</div>

@@ -447,3 +447,29 @@ export class Nota
 	// */
 	
 }
+
+export class Armadura
+{
+	tipo: string;
+	notas: ArmaduraNota[];
+}
+export class ArmaduraNota
+{
+	nota: string;
+	linha: number;
+}
+export class Escalas
+{
+	cicloSustenido:string[] = [
+		'C','G','D','A','E','B'
+	];
+	cicloBemol:string[] = [
+		'F','Bb','Eb','Ab','Db','Gb'
+	];
+	notas: string[] = [
+		'C','C#','D','D#','E','F','F#','G','G#','A','Bb','B'
+	];
+	notasBemol: string[] = [
+		'C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'
+	];
+}

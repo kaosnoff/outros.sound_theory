@@ -1,3 +1,12 @@
-<p>
-  escala works!
-</p>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col s12 m4 l2" id="submenu">
+			<div class="collection">
+				<a *ngFor="let m of menu" routerLink="{{m.url}}" routerLinkActive="active" class="collection-item">{{m.label}}</a>
+			</div>
+		</div>
+		<div class="col s12 m8 l10">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+</div>

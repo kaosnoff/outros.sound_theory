@@ -1,0 +1,106 @@
+.pauta {
+	display: block;
+	position: relative;
+	height: 7.8em;
+	width: 100%;
+	max-width: 15.0em;
+	
+	.linhas {
+		position: absolute;
+		top: 1.5em;
+		left: 0;
+		width: 100%;
+		height: 4.3em;
+		z-index: 0;
+		border-left: 2px solid #000;
+		/*border-right: 1px solid #000;*/
+		
+		.linha {
+			border-bottom: 1px solid #000;
+			margin-top: 1.0em;
+			
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+	}
+	
+	.clave {
+		position: relative;
+		display: block;
+		float: left;
+		height: 100%;
+		width: 2.78em;
+		background-image: url('../../../assets/img/GClef.svg');
+		background-repeat: no-repeat;
+		background-size: 100% auto;
+		background-position: 0.0em 0.0em;
+		margin: 0.0em 1.0em 0.0em 0.5em;
+		z-index: 1;
+	}
+	&.pauta-f {
+		.clave {
+			background-image: url('../../../assets/img/FClef.svg');
+			width: 3.4em;
+			margin-right: 0.6em;
+			margin-top: -0.5em;
+			background-position: 0.0em 2.1em;
+		}
+	}
+	
+	.armadura {
+		display: block;
+		float: left;
+		cursor: default;
+		position: relative;
+		height: 6.0em;
+		padding-top: 0.6em;
+		margin-left: -0.7em;
+		
+		.acidente {
+			width: 0.8em;
+			height: 100%;
+			line-height: 0.55em;
+			display: block;
+			float: left;
+			margin: 0;
+			
+			&::before {
+				content: '\266f';
+				font-size: 2.5em;
+				font-weight: bold;
+			}
+			
+			@for $i from 0 through 7
+			{
+				&[data-linha="#{$i}"] {
+					padding-top: (0.55em * $i);
+				}
+			}
+		}
+		
+		&[data-tipo="b"]
+		{
+			padding-top: 0.3em;
+			
+			.acidente::before { content: '\266d'; }
+		}
+	}
+	&.pauta-f {
+		.armadura {
+			padding-top: 1.9em;
+		}
+	}
+	
+	.tempo {
+		font-family: 'Bree Serif', serif;
+		display: block;
+		float: left;
+		margin: 1.4em 0.5em 0.0em 1.0em;
+		
+		.tem {
+			font-size: 3.0em;
+			line-height: 0.7em;
+		}
+	}
+}

@@ -18,6 +18,8 @@ import { PianoComponent } from './elements/piano/piano.component';
 import { PianoTeclaComponent } from './elements/piano-tecla/piano-tecla.component';
 import { PartituraComponent } from './elements/partitura/partitura.component';
 import { NotaFiguraComponent } from './elements/nota-figura/nota-figura.component';
+import { EscalasChavesComponent } from './pages/escalas-chaves/escalas-chaves.component';
+import { PartituraChaveComponent } from './elements/partitura-chave/partitura-chave.component';
 
 @NgModule({
 	declarations: [
@@ -29,7 +31,9 @@ import { NotaFiguraComponent } from './elements/nota-figura/nota-figura.componen
 		PianoComponent,
 		PianoTeclaComponent,
 		PartituraComponent,
-		NotaFiguraComponent
+		NotaFiguraComponent,
+		EscalasChavesComponent,
+		PartituraChaveComponent
 	],
 	imports: [
 		MaterializeModule,

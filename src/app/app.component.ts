@@ -18,11 +18,11 @@ export class AppComponent
 		{
 			url: '/escalas',
 			label: "Escalas e Chaves"
-		},
+		},/*
 		{
 			url: '/intervalos',
 			label: "Intervalos"
-		},
+		},// */
 		{
 			url: '/acordes',
 			label: "Acordes"

@@ -10,18 +10,13 @@ import { NotasService, Nota, HelperEscalas, Armadura } from '../../services/nota
 export class NotaFiguraComponent implements OnInit
 {
 	@Input() nota:Nota;
-	@Input() key:string = 'C';
+	@Input() armadura:Armadura
 	
 	constructor()
 	{}
 	
-	private helperEscalas: HelperEscalas = new HelperEscalas;
-	private armadura: Armadura = new Armadura;
-	
 	ngOnInit()
 	{
-		this.armadura = this.helperEscalas.getArmadura(this.key);
-		
 		if (this.nota.accid)
 		{
 			if (this.nota.accid == this.armadura.tipo)

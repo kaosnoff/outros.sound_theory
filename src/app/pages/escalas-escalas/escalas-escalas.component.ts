@@ -43,16 +43,39 @@ export class EscalasEscalasComponent implements OnInit
 		
 		this.escalas = [];
 		
-		let escala: Escala = new Escala;
 		
-		escala.tonica = key;
-		escala.tipo = 'Escala Maior';
-		escala.graus = [0,1,2,3,4,5,6,7];
-		escala.funcoes = this.funcoes;
-		escala.intervalos = [2,2,1,2,2,2,1];
-		escala.notas = this.montaEscala(escala.tonica, escala.intervalos);
 		
-		this.escalas.push(escala);
+		let tempEscalas = [
+			{
+				label: 'Escala Maior',
+				intervalos: [2,2,1,2,2,2,1]
+			},
+			{
+				label: 'Escala Menor Natural',
+				intervalos: [2,1,2,2,1,2,2]
+			},
+			{
+				label: 'Escala Menor Harmônica',
+				intervalos: [2,1,2,2,1,3,1]
+			},
+			{
+				label: 'Escala Menor Melódica',
+				intervalos: [2,1,2,2,2,2,1]
+			}
+		]
+		
+		for (let temp of tempEscalas)
+		{
+			let escala: Escala = new Escala;
+			// Escala maior
+			escala.tonica = key;
+			escala.tipo = temp.label;
+			escala.graus = [0,1,2,3,4,5,6,7];
+			escala.funcoes = this.funcoes;
+			escala.intervalos = temp.intervalos;
+			escala.notas = this.montaEscala(escala.tonica, escala.intervalos);
+			this.escalas.push(escala);
+		}
 	}
 	
 	private montaEscala(tonica, intervalos):Nota[]

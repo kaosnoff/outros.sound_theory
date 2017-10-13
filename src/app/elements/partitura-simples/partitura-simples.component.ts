@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 
-import { NotasService, Nota } from '../../services/notas.service';
+import { NotasService, Nota, Armadura, HelperEscalas } from '../../services/notas.service';
 
 @Component({
   selector: 'app-partitura-simples',
@@ -18,6 +18,11 @@ export class PartituraSimplesComponent implements OnInit
 	@Input() notas:Nota[] = [];
 	@Input() key: string = 'C';
 	
+	private helperEscalas: HelperEscalas = new HelperEscalas;
+	armadura: Armadura = new Armadura;
+	
 	ngOnInit()
-	{}
+	{
+		this.armadura = this.helperEscalas.getArmadura(this.key);
+	}
 }

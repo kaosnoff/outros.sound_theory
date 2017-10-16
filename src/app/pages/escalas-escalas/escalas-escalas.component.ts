@@ -17,7 +17,7 @@ export class EscalasEscalasComponent implements OnInit
 	
 	escalas: Escala[] = [];
 	key: string;
-	notas: string[] = ['C','G','D','A','E','B','F#','Gb','Db','Ab','Eb','Bb','F','C#','G#','D#','Cb'];//,'C#','Db','D','D#','Eb','F','F#'];
+	notas: string[] = ['C','G','D','A','E','B','F#','Gb','Db','Ab','Eb','Bb','F','C#'/*,'G#','D#','Cb'*/];
 	
 	private romanos: string[] = [
 		'I','II','III','IV','V','VI','VII','VIII','IX','X'

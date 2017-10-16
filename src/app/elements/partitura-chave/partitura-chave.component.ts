@@ -42,6 +42,7 @@ export class PartituraChaveComponent implements OnInit
 	getArmadura()
 	{
 		this.armadura = HelperEscalas.getArmadura(this._chave);
+		if (this.armadura == null) this.armadura = HelperEscalas.getArmadura('C');
 		
 		this.tipoAcidente = this.armadura.tipo;
 		

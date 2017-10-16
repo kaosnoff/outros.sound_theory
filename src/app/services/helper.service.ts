@@ -64,6 +64,9 @@ export class HelperEscalas
 	static notasBemol: string[] = [
 		'C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'
 	];
+	static notasPadrao: string[] = [
+		'C','C#','D','D#','E','F','F#','G','G#','A','Bb','B'
+	];
 	
 	static ordemSustenido:any[] = [
 		{ nota: 'F', linha: 1 },
@@ -143,5 +146,4 @@ export class HelperEscalas
 		//console.log(key, i, j, menor);
 		return menor.toLowerCase();
 	}
-	
 }

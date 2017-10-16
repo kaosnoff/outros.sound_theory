@@ -120,7 +120,6 @@ export class EscalasEscalasComponent implements OnInit
 		}
 		notas.push(base);
 		
-		console.log(base);
 		if (tonica.length > 1 && tonica[1] == 'b' && base.accid == '#')
 		{
 			base.invert();
@@ -130,31 +129,16 @@ export class EscalasEscalasComponent implements OnInit
 		
 		let total: number = 0;
 		
-		let ordem: string[] = [];
-		let naturais: string[] = HelperEscalas.naturais;
-		let p:number = naturais.indexOf(key[0])
-		for (let i:number = 0; i < 7; i++)
-		{
-			let p1: number = p+i;
-			if (p1 >= naturais.length) p1 -= naturais.length;
-			ordem.push(naturais[p1]);
-		}
-		ordem.push(naturais[p]);
-		
-		let i:number = 1;
 		for(let dif of intervalos)
 		{
 			total += dif;
 			let nota: Nota = new Nota(base.altura + total, base.oitava);
-			
-			if (nota.nome[0] !== ordem[i])
-			{
-				nota.invert();
-			}
 			nota.duration = base.duration;
 			notas.push(nota);
-			i++;
 		}
+		
+		notas = NotasService.arrumaNotas(key,notas);
+		
 		return notas;
 	}
 }

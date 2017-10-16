@@ -1,0 +1,39 @@
+<div class="container-fluid">
+	<h3>Modos Gregos</h3>
+	
+	<div class="botoes">
+		<div class="btn waves-effect" *ngFor="let nota of bases" [class.disabled]="base.nome == nota" (click)="setBase(nota)">
+			{{nota}}
+		</div>
+	</div>
+	
+	<div class="modos">
+		<div class="modo" *ngFor="let modo of modos">
+			<h4>{{modo.nome}} <small>({{modo.tipo}})</small></h4>
+			
+			<app-partitura-simples [key]="key" [notas]="modo.notas" [playable]="true"></app-partitura-simples>
+			
+			<div class="row">
+				<div class="col s6 l3">Tônica: <strong *ngIf="modo.notas">{{modo.notas[0].nome}}</strong></div>
+				<div class="col s6 l3">
+					Dominante: 
+					<strong *ngIf="modo.grauDominante == null">nenhum</strong>
+					<strong *ngIf="modo.grauDominante && modo.notas">{{modo.notas[modo.grauDominante - 1].nome}}</strong>
+				</div>
+				<div class="col s6 l3" *ngIf="modo.intervalos">
+					Intervalos: 
+					<ng-container *ngFor="let intervalo of modo.intervalos">
+						<span *ngIf="intervalo < 2">s</span>
+						<span *ngIf="intervalo > 1">T</span>
+					</ng-container>
+				</div>
+				<div class="col s6 l3" *ngIf="modo.notas">
+					Notas: 
+					<ng-container *ngFor="let nota of modo.notas">
+						{{nota.nome}}
+					</ng-container>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

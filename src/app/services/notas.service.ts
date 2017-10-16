@@ -114,51 +114,7 @@ export class NotasService
 			notas[0].play();
 		}
 	}
-	/*
-	private playNotes()
-	{
-		let nota:Nota = this.partitura.shift();
-		
-		this.playing = true;
-		
-		if (!nota || nota == undefined)
-		{
-			this.playing = false;
-			return;
-		}
-		
-		if (this.teclas)
-		{
-			let tecla = this.teclas.filter(item => (item.nome == nota.nome && item.oitava == nota.oitava));
-			if (tecla.length > 0)
-			{
-				tecla[0].duration = nota.duration;
-				nota = tecla[0];
-			}
-		}
-		
-		//this.notaObs.next(nota);
-		this.nota.next(nota);
-		
-		if (nota.oitava > 9)
-		{
-			nota.oitava = 9;
-		}
-		/*
-		nota.complete.subscribe(complete => 
-		{
-			if (!complete) return complete;
-			console.log(nota, complete)
-			//nota.complete.unsubscribe();
-			if (complete) this.playNotes();
-			return complete;
-		});
-		// */ /*
-		nota.play();
-		
-		return this;
-	}
-	// */
+	
 	toSong(notasString:string,params: any):Array<Nota>
 	{
 		let notas:Array<Nota> = new Array<Nota>();
@@ -223,6 +179,34 @@ export class NotasService
 		tones.play('e',2);
 		tones.play('b',2);
 		tones.play('e',3);
+	}
+	
+	public static arrumaNotas(key: string, notas: Nota[]): Nota[]
+	{
+		let saida: Nota[] = [];
+		
+		let ordem: string[] = [];
+		let naturais: string[] = HelperEscalas.naturais;
+		let p:number = naturais.indexOf(key[0])
+		for (let i:number = 0; i < 7; i++)
+		{
+			let p1: number = p+i;
+			if (p1 >= naturais.length) p1 -= naturais.length;
+			ordem.push(naturais[p1]);
+		}
+		ordem.push(naturais[p]);
+		
+		for (let i = 0; i < notas.length; i++)
+		{
+			let nota: Nota = notas[i];
+			if (nota.nome[0] !== ordem[i])
+			{
+				nota.invert();
+			}
+			saida.push(nota);
+		}
+		
+		return saida;
 	}
 }
 

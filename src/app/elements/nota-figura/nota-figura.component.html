@@ -1,9 +1,10 @@
-<div class="nota" *ngIf="nota != null"
+<div class="nota" [class.active]="playing" *ngIf="nota != null"
 	[attr.data-nome]="nota.nome"
 	[attr.data-accid]="nota.accid"
 	[attr.data-grau]="nota.grau"
 	[attr.data-oitava]="nota.oitava"
 	[attr.data-duration]="nota.duration"
+	[attr.data-hasArmadura]="hasArmadura"
 >
 	<div class="acidente"></div>
 	<div class="figura"></div>

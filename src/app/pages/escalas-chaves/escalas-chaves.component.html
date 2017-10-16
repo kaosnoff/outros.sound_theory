@@ -4,27 +4,29 @@
 			<h3>Claves (Chaves) e Armaduras</h3>
 			
 			<div class="botoes">
-				<div class="btn" *ngFor="let nota of escala.cicloSustenido" (click)="changeKey(nota)">
+				<div class="btn" *ngFor="let nota of cicloSustenido" (click)="changeKey(nota)">
 					<span class="maior">{{nota}}</span> / <span class="menor">{{getMenor(nota)}}</span>
 				</div>
-				<div class="btn" *ngFor="let nota of escala.cicloBemol" (click)="changeKey(nota,'b')">
+				<div class="btn" *ngFor="let nota of cicloBemol" (click)="changeKey(nota,'b')">
 					<span class="maior">{{nota}}</span> / <span class="menor">{{getMenor(nota,'b')}}</span>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="row">
 		<div class="col s6">
-			<app-partitura-chave [clave]="'G'" [key]="key" [standalone]="true" (keyChange)="setArmadura($event)"></app-partitura-chave>
-		</div>
-		<div class="col s6">
-			<app-partitura-chave [clave]="'F'" [key]="key" [standalone]="true"></app-partitura-chave>
-		</div>
-		<div class="col s12">
 			<p>Escala maior: <strong>{{key}}</strong></p>
 			<p>Escala menor: <strong>{{menor}}</strong></p>
+			
 			<p *ngIf="acidentes && acidentes.length > 0">
 				<strong>{{(acidenteTipo == 'b')?"Bemóis":"Sustenidos"}} em: </strong>
 				<span *ngFor="let nota of acidentes">{{nota}} </span>
 			</p>
+			
+		</div>
+		<div class="col s6">
+			<app-partitura-chave [clave]="'G'" [key]="key" [standalone]="true"></app-partitura-chave>
+			<app-partitura-chave [clave]="'F'" [key]="key" [standalone]="true"></app-partitura-chave>
 		</div>
 	</div>
 </div>

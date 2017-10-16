@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Armadura, HelperEscalas } from '../../services/notas.service';
+import { Armadura, HelperEscalas } from '../../services/helper.service';
 
 @Component({
   selector: 'app-escalas-chaves',
@@ -10,45 +10,42 @@ import { Armadura, HelperEscalas } from '../../services/notas.service';
 export class EscalasChavesComponent implements OnInit
 {
   constructor()
-	{}
+	{
+		this.changeKey('C');
+	}
 	
-	key: string = "";
+	key: string = "C";
 	menor: string = "";
 	acidentes: string[] = [];
 	acidenteTipo: string = '#';
 	armadura: Armadura = null;
 	
-	escala: HelperEscalas = new HelperEscalas;
+	cicloSustenido: string[] = HelperEscalas.cicloSustenido;
+	cicloBemol: string[] = HelperEscalas.cicloBemol;
 	
   ngOnInit()
 	{
-		this.changeKey('C');
+		//this.menor = this.getMenor(this.key);
+		//setTimeout(() => { this.changeKey('C'); },5000);
 	}
 	
 	changeKey(key:string, tipo: string = '#')
 	{
 		this.menor = this.getMenor(key, tipo);
 		this.key = key;
-		this.acidentes = [];
+		this.setArmadura(HelperEscalas.getArmadura(key));
 	}
 	
-	getMenor(key, tipo: string = '#')
+	getMenor(key:string, tipo: string = '#')
 	{
-		let i: number = ((tipo == 'b') ? (this.escala.notasBemol) : (this.escala.notas)).indexOf(key);
-		let j: number = i - 3;
-		if (j < 0)
-		{
-			j += this.escala.notas.length;
-		}
-		
-		let menor: string = (tipo == 'b') ? (this.escala.notasBemol[j]) : (this.escala.notas[j]);
-		return menor;
+		return HelperEscalas.getMenor(key,tipo);
 	}
 	
 	setArmadura(armadura: Armadura)
 	{
 		this.armadura = armadura;
 		this.acidenteTipo = armadura.tipo;
+		this.acidentes = [];
 		for (let item of armadura.notas)
 		{
 			this.acidentes.push(item.nota);

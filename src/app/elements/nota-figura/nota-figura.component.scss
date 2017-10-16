@@ -3,6 +3,10 @@
 	width: 1.0em;
 	position: relative;
 	
+	&.active {
+		background-color: rgba(blue,0.14);
+	}
+	
 	.acidente {
 		display: block;
 		width: 1px;
@@ -41,12 +45,28 @@
 	&[data-duration='32'] .figura {
 		background-image: url('../../../assets/img/fig5.svg');
 	}
-	&[data-accid='#'] .acidente::before {
-		content: '\266f';
+	
+	&[data-hasArmadura='true'] .acidente::before {
 		font-size: 1.5em;
 		position: absolute;
 		top: 0.1em;
 		left: -0.50em;
+	}
+	&[data-hasArmadura='false'] .acidente::before {
+		content: '' !important;
+		display: none;
+	}
+	
+	&[data-accid='#'] .acidente::before {
+		content: '\266f';
+	}
+	&[data-accid='b'] .acidente::before {
+		content: '\266d';
+	}
+	&[data-accid='n'] .acidente::before {
+		content: '\266e';
+		font-size: 2.0em;
+		top: 0.02em;
 	}
 	
 	&::after {
@@ -54,9 +74,11 @@
 		top: 0px;
 		left: 1.0em;
 	}
+	/*
 	&[data-accid='#']
 	{
 		content: '#';
 		width: 1.0em;
 	}
+	// */
 }

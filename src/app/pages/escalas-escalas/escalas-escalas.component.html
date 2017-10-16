@@ -3,35 +3,43 @@
 	
 	<h4>Tônica</h4>
 	<div class="botoes row">
-		<div class="btn nota col s1" [class.disabled]="key == nota" *ngFor="let nota of helperEscalas.notas" (click)="changeKey(nota)">
+		<div class="btn nota col s1" [class.disabled]="key == nota" *ngFor="let nota of notas" (click)="changeKey(nota)">
 			{{nota}}
 		</div>
 	</div>
 	
 	<ng-container *ngFor="let escala of escalas">
-		<h5>{{escala.tipo}}</h5>
-		<app-partitura-simples [key]="escala.tonica" [notas]="escala.notas"></app-partitura-simples>
-		<div class="detalhes">
-			<div class="notas items">
-				<div class="nota item" *ngFor="let nota of escala.notas">
-					{{nota.nome}}
+		<h5>{{escala.tipo}} ({{escala.tonica}})</h5>
+		
+		<ng-container *ngIf="escala.notas">
+			<app-partitura-simples [key]="escala.tonica" [notas]="escala.notas" [playable]="true"></app-partitura-simples>
+			<div class="detalhes">
+				<div class="notas items">
+					<div class="nota item" *ngFor="let nota of escala.notas">
+						{{nota.nome}}
+					</div>
+				</div>
+				<div class="graus items">
+					<div class="grau item" *ngFor="let grau of escala.graus">{{romanos[grau]}}</div>
+				</div>
+				<div class="funcoes items">
+					<div class="funcao item" *ngFor="let funcao of escala.funcoes">
+						{{funcao}}
+					</div>
+				</div>
+				<div class="intervalos items">
+					<div class="intervalo item empty"></div>
+					<div class="intervalo item" *ngFor="let intervalo of escala.intervalos">
+						<span class="step">{{(intervalo == 1 ? "Semitom": (intervalo > 2 ? "Tom e meio" : "Tom"))}}</span>
+					</div>
 				</div>
 			</div>
-			<div class="graus items">
-				<div class="grau item" *ngFor="let grau of escala.graus">{{romanos[grau]}}</div>
-			</div>
-			<div class="funcoes items">
-				<div class="funcao item" *ngFor="let funcao of escala.funcoes">
-					{{funcao}}
-				</div>
-			</div>
-			<div class="intervalos items">
-				<div class="intervalo item empty"></div>
-				<div class="intervalo item" *ngFor="let intervalo of escala.intervalos">
-					<span class="step">{{(intervalo == 1 ? "Semitom": (intervalo > 2 ? "Tom e meio" : "Tom"))}}</span>
-				</div>
-			</div>
-		</div>
+		</ng-container>
+		<ng-container *ngIf="escala.notas == null">
+			Não existe
+		</ng-container>
+		
+		
 	</ng-container>
 	
 	

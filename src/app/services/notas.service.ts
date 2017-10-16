@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EventEmitter} from '@angular/core';
 
-import { Observer, Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observer, Observable, BehaviorSubject, Subscription } from 'rxjs/Rx';
 //import {Observable} from 'rxjs/Observable';
 
 import { ConfigService } from './config.service';
-
-
+import { HelperEscalas } from './helper.service';
 
 // Documentação em: https://github.com/bit101/tones
 declare var tones:any;
@@ -68,7 +67,7 @@ export class NotasService
 		// */
 	}
 	
-	play(args:string | Nota | Array<Nota>, params: any = null)
+	play(args:string | Nota | Nota[], params: any = null)
 	{
 		this.stop();
 		
@@ -231,7 +230,9 @@ export class Nota
 {
 	public altura: number = 0;
 	public oitava:number = 2;
+	private oitavaOld: number;
 	public nome: string = 'C';
+	private nomeOld: string;
 	public accid: string = '';
 	public grau:number = 0;
 	//public freq: number = 132.0;
@@ -242,6 +243,7 @@ export class Nota
 	
 	private pausa:boolean = false;
 	private _next:Nota = null;
+	private _subs: Subscription = null;
 	
 	public complete:BehaviorSubject<boolean> = new BehaviorSubject(false);
 	
@@ -285,9 +287,19 @@ export class Nota
 			}
 			
 			this.grau = (altura < 5) ? (Math.floor(altura / 2)/2) : (Math.floor((altura + 1) / 2)/2);
-			
-			
 		}
+		
+		this.nomeOld = this.nome;
+		this.oitavaOld = this.oitava;
+		
+		this._subs = this.complete.subscribe(complete =>
+		{
+			if (complete)
+			{
+				if (this._next)	this._next.play();
+			}
+			return complete;
+		});
 		
 		//this.freq = this.getFreq(altura,oitava);
 	}
@@ -301,6 +313,26 @@ export class Nota
 		return this._duration;
 	}
 	
+	invert()
+	{
+		let valor = HelperEscalas.valores.find(item => item.nota === this.nome).value;
+		let equivalente = HelperEscalas.valores.find(item => item.value == valor && item.nota != this.nome);
+		
+		if (!equivalente) return;
+		
+		this.nome = equivalente.nota;
+		this.accid = this.nome.length > 1 ? this.nome[1] : '';
+		
+		let naturais: string[] = HelperEscalas.naturais;
+		let grau0: number = this.grau;
+		let grau1 = naturais.indexOf(this.nome[0]) / 2;
+		
+		this.grau = grau1;
+		//console.log(this.nome, grau0, grau1);
+		if (grau0 < 0.5 && grau1 - grau0 > 1.0) this.oitava--;
+		if (grau0 > 2.5 && grau0 - grau1 > 1.0) this.oitava++;
+	}
+	
 	static naturais:Array<number> = [
 		0,2,4,5,7,9,11
 	];
@@ -308,22 +340,6 @@ export class Nota
 	static listaNotas:Array<string> = [
 		'C','C#','D','D#','E','F','F#','G','G#','A','A#','B'
 	];
-	/*
-	static listaRelacoes = [
-		1.000,
-		1.059,
-		1.122,
-		1.189,
-		1.260,
-		1.335,
-		1.414,
-		1.498,
-		1.587,
-		1.682,
-		1.782,
-		1.888
-	];
-	//*/
 	
 	public play():void
 	{
@@ -343,7 +359,8 @@ export class Nota
 			tones.release = tempoMs;
 			if (this.oitava < 10)
 			{
-				tones.play(this.nome,this.oitava);
+				console.log(this.nomeOld, this.oitava, this.oitavaOld);
+				tones.play(this.nomeOld,this.oitavaOld);
 			}
 			
 			this.playing.next(true);
@@ -357,8 +374,16 @@ export class Nota
 	public stop():void
 	{
 		//console.log('stop');
-		this.playing.next(false);
 		clearTimeout(this.timeout);
+		this.next = null;
+		this.playing.next(false);
+		this.complete.next(true);
+		
+		if (this._subs !== null)
+		{
+			//this._subs.unsubscribe();
+			//this.complete.unsubscribe();
+		}
 		/*
 		if (!this.sound) return;
 		
@@ -375,13 +400,6 @@ export class Nota
 	set next(nota:Nota)
 	{
 		this._next = nota;
-		this.complete.subscribe(complete =>
-		{
-			if (complete) {
-				this._next.play();
-			}
-			return complete;
-		});
 	}
 	get next():Nota
 	{
@@ -446,96 +464,4 @@ export class Nota
     }
 	// */
 	
-}
-
-export class Armadura
-{
-	tipo: string;
-	notas: ArmaduraNota[];
-}
-export class ArmaduraNota
-{
-	nota: string;
-	linha: number;
-}
-export class HelperEscalas
-{
-	valores:any[] = [
-		{ nota: 'C', value: 0 },
-		{ nota: 'C#', value: 0.5 },
-		{ nota: 'Db', value: 0.5 },
-		{ nota: 'D', value: 1.0 },
-		{ nota: 'D#', value: 1.5 },
-		{ nota: 'Eb', value: 2.5 },
-		{ nota: 'E', value: 2.0 },
-		{ nota: 'Fb', value: 2.0 },
-		{ nota: 'E#', value: 2.5 },
-		{ nota: 'F', value: 2.5 },
-		{ nota: 'F#', value: 3.0 },
-		{ nota: 'Gb', value: 3.0 },
-		{ nota: 'G', value: 3.5 },
-		{ nota: 'G#', value: 4.0 },
-		{ nota: 'Ab', value: 4.0 },
-		{ nota: 'A', value: 4.5 },
-		{ nota: 'A#', value: 5.0 },
-		{ nota: 'Bb', value: 5.0 },
-		{ nota: 'B', value: 5.5 },
-		{ nota: 'Cb', value: 5.5 },
-		{ nota: 'B#', value: 6.0 }
-	]
-	cicloSustenido:string[] = [
-		'C','G','D','A','E','B'
-	];
-	cicloBemol:string[] = [
-		'F','Bb','Eb','Ab','Db','Gb'
-	];
-	notas: string[] = [
-		'C','C#','D','D#','E','F','F#','G','G#','A','Bb','B'
-	];
-	notasBemol: string[] = [
-		'C','Db','D','Eb','E','F','Gb','G','Ab','A','A#','B'
-	];
-	
-	ordemSustenido:any[] = [
-		{ nota: 'F', linha: 1 },
-		{ nota: 'C', linha: 4 },
-		{ nota: 'G', linha: 0 },
-		{ nota: 'D', linha: 3 },
-		{ nota: 'A', linha: 6 }
-	];
-	ordemBemol:any[] = [
-		{ nota: 'B', linha: 5 },
-		{ nota: 'E', linha: 2 },
-		{ nota: 'A', linha: 6 },
-		{ nota: 'D', linha: 3 },
-		{ nota: 'G', linha: 7 },
-		{ nota: 'C', linha: 4 }
-	];
-	
-	getArmadura(key: string)
-	{
-		let armadura: Armadura = new Armadura;
-		
-		let n: number = this.cicloSustenido.indexOf(key);
-		if (n < 0)
-		{
-			n = this.cicloBemol.indexOf(key);
-			armadura.tipo = 'b';
-		} 
-		else
-		{
-			armadura.tipo = '#';
-		}
-		
-		let ordem:any[] = (armadura.tipo == '#') ? this.ordemSustenido : this.ordemBemol;
-		let base: number = (armadura.tipo == '#') ? 0 : 1;
-		armadura.notas = [];
-		
-		for (let i = 0; i < n + base; i++)
-		{
-			armadura.notas.push(ordem[i]);
-		}
-		
-		return armadura;
-	}
 }

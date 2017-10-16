@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 // Services
 import { ConfigService } from './services/config.service';
 import { NotasService } from './services/notas.service';
+import { HelperService } from './services/helper.service';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +47,8 @@ import { PartituraSimplesComponent } from './elements/partitura-simples/partitur
 	],
 	providers: [
 		ConfigService,
-		NotasService
+		NotasService,
+		HelperService
 	],
 	bootstrap: [AppComponent]
 })

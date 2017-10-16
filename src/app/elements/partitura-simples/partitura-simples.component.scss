@@ -7,6 +7,7 @@ $oitavaCorte: ($oitavaBase + 1);
 	font-size: 14px;
 	line-height: 1.0em;
 	padding: 2.0em 0.0em;
+	position: relative;
 	
 	.pauta {
 		display: block;
@@ -112,5 +113,12 @@ $oitavaCorte: ($oitavaBase + 1);
 				}
 			}
 		}
+	}
+	
+	#controls {
+		position: absolute;
+		top: -1.0em;
+		right: 0;
+		z-index: 9;
 	}
 }

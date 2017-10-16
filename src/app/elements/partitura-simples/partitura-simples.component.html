@@ -27,4 +27,11 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="controls" *ngIf="playable">
+		<div class="btn btn-flat waves-effect" (click)="togglePlay()">
+			<i class="material-icons" *ngIf="!playing">play_arrow</i>
+			<i class="material-icons" *ngIf="playing">stop</i>
+		</div>
+	</div>
 </div>

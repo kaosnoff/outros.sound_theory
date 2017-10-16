@@ -71,7 +71,7 @@
 				font-weight: bold;
 			}
 			
-			@for $i from 0 through 7
+			@for $i from 0 through 8
 			{
 				&[data-linha="#{$i}"] {
 					padding-top: (0.55em * $i);

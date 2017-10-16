@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NotasService, Nota, HelperEscalas } from '../../services/notas.service';
+import { NotasService, Nota } from '../../services/notas.service';
+import { HelperEscalas, Armadura } from '../../services/helper.service';
 
 @Component({
   selector: 'app-escalas-escalas',
@@ -14,9 +15,9 @@ export class EscalasEscalasComponent implements OnInit
 	)
 	{}
 	
-	helperEscalas: HelperEscalas = new HelperEscalas;
 	escalas: Escala[] = [];
 	key: string;
+	notas: string[] = ['C','G','D','A','E','B','F#','Gb','Db','Ab','Eb','Bb','F','C#','G#','D#','Cb'];//,'C#','Db','D','D#','Eb','F','F#'];
 	
 	private romanos: string[] = [
 		'I','II','III','IV','V','VI','VII','VIII','IX','X'
@@ -34,7 +35,7 @@ export class EscalasEscalasComponent implements OnInit
 	
   ngOnInit()
 	{
-		this.changeKey('D');
+		this.changeKey('C');
 	}
 	
 	changeKey(key: string)
@@ -43,23 +44,32 @@ export class EscalasEscalasComponent implements OnInit
 		
 		this.escalas = [];
 		
-		
+		let tipo: string = (key.length > 1 && key[1] == 'b') ? 'b' : '#';
 		
 		let tempEscalas = [
 			{
 				label: 'Escala Maior',
+				key: key,
 				intervalos: [2,2,1,2,2,2,1]
 			},
 			{
+				label: 'Escala Menor Relativa Natural',
+				key: HelperEscalas.getMenor(key,tipo).toLowerCase(),
+				intervalos: [2,1,2,2,1,2,2]
+			},
+			{
 				label: 'Escala Menor Natural',
+				key: key.toLowerCase(),
 				intervalos: [2,1,2,2,1,2,2]
 			},
 			{
 				label: 'Escala Menor Harmônica',
+				key: key.toLowerCase(),
 				intervalos: [2,1,2,2,1,3,1]
 			},
 			{
 				label: 'Escala Menor Melódica',
+				key: key.toLowerCase(),
 				intervalos: [2,1,2,2,2,2,1]
 			}
 		]
@@ -68,7 +78,7 @@ export class EscalasEscalasComponent implements OnInit
 		{
 			let escala: Escala = new Escala;
 			// Escala maior
-			escala.tonica = key;
+			escala.tonica = temp.key;
 			escala.tipo = temp.label;
 			escala.graus = [0,1,2,3,4,5,6,7];
 			escala.funcoes = this.funcoes;
@@ -82,20 +92,69 @@ export class EscalasEscalasComponent implements OnInit
 	{
 		let notas:Nota[] = [];
 		
-		let altura: number = this.helperEscalas.notas.indexOf(tonica);
+		let key:string = tonica;
+		key = key[0].toUpperCase() + key.slice(1);
 		
-		let base: Nota = new Nota(altura, 4);
+		let oitava: number = 4;
+		
+		let altura: number = HelperEscalas.notas.indexOf(key);
+		if (altura < 0) altura = HelperEscalas.notasBemol.indexOf(key);
+		if (altura < 0)
+		{
+			if (key == 'Cb') 
+			{
+				altura = 11;
+				//oitava--;
+			}
+		}
+		
+		let armadura: Armadura = HelperEscalas.getArmadura(tonica);
+		if (!armadura) return null;
+		
+		let base: Nota = new Nota(altura, oitava);
+		base.duration = 8;
+		if (key == 'Cb')
+		{
+			base.nome = 'Cb';
+			base.accid = 'b';
+		}
 		notas.push(base);
+		
+		console.log(base);
+		if (tonica.length > 1 && tonica[1] == 'b' && base.accid == '#')
+		{
+			base.invert();
+		}
+		
+		if (base.altura > 9) base.oitava--;
 		
 		let total: number = 0;
 		
+		let ordem: string[] = [];
+		let naturais: string[] = HelperEscalas.naturais;
+		let p:number = naturais.indexOf(key[0])
+		for (let i:number = 0; i < 7; i++)
+		{
+			let p1: number = p+i;
+			if (p1 >= naturais.length) p1 -= naturais.length;
+			ordem.push(naturais[p1]);
+		}
+		ordem.push(naturais[p]);
+		
+		let i:number = 1;
 		for(let dif of intervalos)
 		{
 			total += dif;
 			let nota: Nota = new Nota(base.altura + total, base.oitava);
+			
+			if (nota.nome[0] !== ordem[i])
+			{
+				nota.invert();
+			}
+			nota.duration = base.duration;
 			notas.push(nota);
+			i++;
 		}
-		
 		return notas;
 	}
 }

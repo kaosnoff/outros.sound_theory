@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input, Output, EventEmitter } from '@angular/core';
 
-import { Armadura, HelperEscalas } from '../../services/notas.service';
+import { Armadura, HelperEscalas } from '../../services/helper.service';
 
 @Component({
   selector: 'app-partitura-chave',
@@ -30,7 +30,6 @@ export class PartituraChaveComponent implements OnInit
 	private _chave:string;
 	armadura: Armadura = new Armadura;
 	tipoAcidente: string = '#';
-	helperEscalas: HelperEscalas = new HelperEscalas;
 	
   ngOnInit()
 	{
@@ -42,7 +41,7 @@ export class PartituraChaveComponent implements OnInit
 	
 	getArmadura()
 	{
-		this.armadura = this.helperEscalas.getArmadura(this._chave);
+		this.armadura = HelperEscalas.getArmadura(this._chave);
 		
 		this.tipoAcidente = this.armadura.tipo;
 		
